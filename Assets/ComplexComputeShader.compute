@@ -1,0 +1,17 @@
+﻿// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel Multiply
+
+struct VecMatPair
+{
+	float3 pos;
+	float4x4 mat;
+};
+
+RWStructuredBuffer<float3> dataBuffer;
+
+[numthreads(16, 16, 1)]
+void Multiply(uint3 id : SV_DispatchThreadID)
+{
+	//dataBuffer[id.x].pos = mul(dataBuffer[id.x].mat, float4(dataBuffer[id.x].pos, 1.0));
+	dataBuffer[id.x] = dataBuffer[id.x] + float3(dataBuffer[id.x].x + 1, dataBuffer[id.x].y - 1, dataBuffer[id.x].z * 2);
+}
